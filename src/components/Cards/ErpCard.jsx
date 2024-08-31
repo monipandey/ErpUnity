@@ -1,12 +1,12 @@
 import * as React from 'react';
 const ErpCard = props => (
   <React.Fragment>
-    <div class="main-cards">
+    <div className="main-cards">
 
-<div class="card">
-  <div class="card-inner">
+<div className="card">
+  <div className="card-inner">
     <h3>{props.title}</h3>
-    <span class="material-icons-outlined">groups</span>
+    <span className="material-icons-outlined">groups</span>
   </div>
   <h1>{props.totalEmp}</h1>
 </div>

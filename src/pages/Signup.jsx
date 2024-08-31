@@ -1,30 +1,53 @@
 import React, { useState } from "react";
-import "./signup.css"; // Adjust the path as necessary
+import "./signup.css";
 
 const Signup = () => {
   const [currentStep, setCurrentStep] = useState(1);
 
   const nextStep = () => {
-    if (currentStep < 4) setCurrentStep(currentStep + 1);
+    setCurrentStep((prevStep) => prevStep + 1);
   };
 
   const prevStep = () => {
-    if (currentStep > 1) setCurrentStep(currentStep - 1);
+    setCurrentStep((prevStep) => prevStep - 1);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (currentStep === 4) {
-      alert("Your Form Successfully Signed up");
-      window.location.reload();
-    }
+    alert("Your Form Successfully Signed up");
+    // Optionally handle form submission logic here
   };
 
-  const renderStep = () => {
-    switch (currentStep) {
-      case 1:
-        return (
-          <div className="page slide-page">
+  return (
+    <div className="container-signup">
+    <div className="container">
+      <header>Signup Form</header>
+      <div className="progress-bar">
+        <div className={`step ${currentStep >= 1 ? "active" : ""}`}>
+          <p>Name</p>
+          <div className="bullet"><span>1</span></div>
+          <div className="check fas fa-check"></div>
+        </div>
+        <div className={`step ${currentStep >= 2 ? "active" : ""}`}>
+          <p>Contact</p>
+          <div className="bullet"><span>2</span></div>
+          <div className="check fas fa-check"></div>
+        </div>
+        <div className={`step ${currentStep >= 3 ? "active" : ""}`}>
+          <p>Birth</p>
+          <div className="bullet"><span>3</span></div>
+          <div className="check fas fa-check"></div>
+        </div>
+        <div className={`step ${currentStep >= 4 ? "active" : ""}`}>
+          <p>Submit</p>
+          <div className="bullet"><span>4</span></div>
+          <div className="check fas fa-check"></div>
+        </div>
+      </div>
+
+      <div className="form-outer">
+        <form onSubmit={handleSubmit}>
+          <div className={`page ${currentStep === 1 ? "active" : ""}`}>
             <div className="title">Basic Info:</div>
             <div className="field">
               <div className="label">First Name</div>
@@ -35,41 +58,31 @@ const Signup = () => {
               <input type="text" />
             </div>
             <div className="field">
-              <button className="next" onClick={nextStep}>
-                Next
-              </button>
+              <button type="button" className="firstNext next" onClick={nextStep}>Next</button>
             </div>
           </div>
-        );
-      case 2:
-        return (
-          <div className="page">
+
+          <div className={`page ${currentStep === 2 ? "active" : ""}`}>
             <div className="title">Contact Info:</div>
             <div className="field">
               <div className="label">Email Address</div>
-              <input type="text" />
+              <input type="email" />
             </div>
             <div className="field">
               <div className="label">Phone Number</div>
-              <input type="number" />
+              <input type="tel" />
             </div>
             <div className="field btns">
-              <button className="prev" onClick={prevStep}>
-                Previous
-              </button>
-              <button className="next" onClick={nextStep}>
-                Next
-              </button>
+              <button type="button" className="prev-1 prev" onClick={prevStep}>Previous</button>
+              <button type="button" className="next-1 next" onClick={nextStep}>Next</button>
             </div>
           </div>
-        );
-      case 3:
-        return (
-          <div className="page">
+
+          <div className={`page ${currentStep === 3 ? "active" : ""}`}>
             <div className="title">Date of Birth:</div>
             <div className="field">
               <div className="label">Date</div>
-              <input type="text" />
+              <input type="date" />
             </div>
             <div className="field">
               <div className="label">Gender</div>
@@ -80,18 +93,12 @@ const Signup = () => {
               </select>
             </div>
             <div className="field btns">
-              <button className="prev" onClick={prevStep}>
-                Previous
-              </button>
-              <button className="next" onClick={nextStep}>
-                Next
-              </button>
+              <button type="button" className="prev-2 prev" onClick={prevStep}>Previous</button>
+              <button type="button" className="next-2 next" onClick={nextStep}>Next</button>
             </div>
           </div>
-        );
-      case 4:
-        return (
-          <div className="page">
+
+          <div className={`page ${currentStep === 4 ? "active" : ""}`}>
             <div className="title">Login Details:</div>
             <div className="field">
               <div className="label">Username</div>
@@ -102,54 +109,13 @@ const Signup = () => {
               <input type="password" />
             </div>
             <div className="field btns">
-              <button className="prev" onClick={prevStep}>
-                Previous
-              </button>
-              <button className="submit" onClick={handleSubmit}>
-                Submit
-              </button>
+              <button type="button" className="prev-3 prev" onClick={prevStep}>Previous</button>
+              <button type="submit" className="submit">Submit</button>
             </div>
           </div>
-        );
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <div className="container">
-      <header>Signup Form</header>
-      <div className="progress-bar">
-        <div className={`step ${currentStep >= 1 ? "active" : ""}`}>
-          <p>Name</p>
-          <div className="bullet">
-            <span>1</span>
-          </div>
-          <div className="check fas fa-check"></div>
-        </div>
-        <div className={`step ${currentStep >= 2 ? "active" : ""}`}>
-          <p>Contact</p>
-          <div className="bullet">
-            <span>2</span>
-          </div>
-          <div className="check fas fa-check"></div>
-        </div>
-        <div className={`step ${currentStep >= 3 ? "active" : ""}`}>
-          <p>Birth</p>
-          <div className="bullet">
-            <span>3</span>
-          </div>
-          <div className="check fas fa-check"></div>
-        </div>
-        <div className={`step ${currentStep === 4 ? "active" : ""}`}>
-          <p>Submit</p>
-          <div className="bullet">
-            <span>4</span>
-          </div>
-          <div className="check fas fa-check"></div>
-        </div>
+        </form>
       </div>
-      <div className="form-outer">{renderStep()}</div>
+    </div>
     </div>
   );
 };

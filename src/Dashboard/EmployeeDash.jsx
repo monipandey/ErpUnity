@@ -6,7 +6,7 @@ import ErpCard from '../components/Cards/ErpCard';
 
 
   
-const AdminDash = () => {
+const EmployeeDash = () => {
     return (
         <>
         <Header />
@@ -18,4 +18,4 @@ const AdminDash = () => {
     );
 };
 
-export default AdminDash;
+export default EmployeeDash;

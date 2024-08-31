@@ -8,8 +8,7 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminDash from './Dashboard/AdminDash';
-
-
+import EmployeeDash from './Dashboard/EmployeeDash';
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -27,10 +26,9 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/adminDashboard" element={<AdminDash />} />
+                    <Route path="/employeeDashboard" element={<EmployeeDash />} />
                    
-                </Routes>
-
-               
+                </Routes>  
             </Router>
         </div>
     );

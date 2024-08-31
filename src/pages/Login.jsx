@@ -89,7 +89,9 @@ const Login = () => {
               </div>
               <div className="field btn">
                 <div className="btn-layer"></div>
-                <input type="submit" value="Login" />
+                <a href="/employeeDashboard">
+                  <input type="submit" value="Login" />
+                </a>
               </div>
               <div className="signup-link">
                 Not a member? <a href="/signup">Signup now</a>
