@@ -1,32 +1,80 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Drawer from '@mui/material/Drawer';
-import Divider from '@mui/material/Divider';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import { Card, CardContent, Grid, Button } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
-import DescriptionIcon from '@mui/icons-material/Description';
-
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Inventory2Icon from '@mui/icons-material/Inventory2';
+import PaymentIcon from '@mui/icons-material/Payment';
 import { AppProvider } from '@toolpad/core/AppProvider';
+import FeedbackIcon from '@mui/icons-material/Feedback';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
-const drawerWidth = 240;
+// Navigation Configuration
+const NAVIGATION = [
+  {
+    segment: 'dashboard',
+    title: 'Dashboard',
+    icon: <DashboardIcon />,
+  },
+  {
+    segment: 'Employees',
+    title: 'Employees',
+    icon: <AccountBoxIcon />,
+  },
+  {
+    segment: 'Product',
+    title: 'Product',
+    icon: <ProductionQuantityLimitsIcon />,
+  },
+  {
+    segment: 'orders',
+    title: 'Orders',
+    icon: <ShoppingCartIcon />,
+  },
+  {
+    segment: 'Inventory',
+    title: 'Inventory',
+    icon: <Inventory2Icon />,
+  },
+  {
+    segment: 'Sales',
+    title: 'Sales',
+    icon: <ShoppingCartIcon />,
+  },
+  {
+    segment: 'Payment',
+    title: 'Payment',
+    icon: <PaymentIcon />,
+  },
+  {
+    segment: 'Feedback',
+    title: 'Feedback',
+    icon: <FeedbackIcon />,
+  },
+  
+];
 
+// Theme customization
 const demoTheme = createTheme({
   cssVariables: {
     colorSchemeSelector: 'data-toolpad-color-scheme',
   },
-  colorSchemes: { light: true, dark: true },
+  colorSchemes: {},
+  components: {
+    MuiListItemText: {
+      styleOverrides: {
+        primary: {
+          color: 'black', // Customizing drawer text color to black
+        },
+      },
+    },
+  },
   breakpoints: {
     values: {
       xs: 0,
@@ -38,6 +86,114 @@ const demoTheme = createTheme({
   },
 });
 
+// Sample data for charts
+const sessionData = [
+  { name: 'Day 1', sessions: 2400 },
+  { name: 'Day 2', sessions: 1398 },
+  { name: 'Day 3', sessions: 9800 },
+  { name: 'Day 4', sessions: 3908 },
+  { name: 'Day 5', sessions: 4800 },
+  { name: 'Day 6', sessions: 3800 },
+  { name: 'Day 7', sessions: 4300 },
+];
+
+const pageViewData = [
+  { name: 'Jan', views: 4000 },
+  { name: 'Feb', views: 3000 },
+  { name: 'Mar', views: 2000 },
+  { name: 'Apr', views: 2780 },
+  { name: 'May', views: 1890 },
+  { name: 'Jun', views: 2390 },
+  { name: 'Jul', views: 3490 },
+];
+
+// Card Component to render each stat card
+function StatCard({ title, value, change, chartColor }) {
+  return (
+    <Card sx={{ minWidth: 200, padding: 2 }}>
+      <CardContent>
+        <Typography variant="h6" component="div" gutterBottom>
+          {title}
+        </Typography>
+        <Typography variant="h4" color="text.primary">
+          {value}
+        </Typography>
+        <Typography variant="body2" color={change > 0 ? 'green' : 'red'}>
+          {`${change > 0 ? '+' : ''}${change}%`}
+        </Typography>
+        <Typography variant="caption" color="text.secondary">
+          Last 30 days
+        </Typography>
+        <Box
+          sx={{
+            mt: 1,
+            height: 40,
+            backgroundColor: chartColor,
+            borderRadius: 1,
+          }}
+        />
+      </CardContent>
+    </Card>
+  );
+}
+
+StatCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  change: PropTypes.number.isRequired,
+  chartColor: PropTypes.string,
+};
+
+// A surface card component for sections like "Sessions" and "Page views and downloads"
+function SurfaceCard({ title, value, change, description, chartColor, data, dataKey }) {
+  return (
+    <Card sx={{ padding: 2 }}>
+      <CardContent>
+        <Typography variant="h6" component="div" gutterBottom>
+          {title}
+        </Typography>
+        <Typography variant="h4" color="text.primary">
+          {value}
+        </Typography>
+        <Typography variant="body2" color={change > 0 ? 'green' : 'red'}>
+          {`${change > 0 ? '+' : ''}${change}%`}
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          {description}
+        </Typography>
+        <Box
+          sx={{
+            mt: 2,
+            height: 200, // Increased height for the chart
+            borderRadius: 1,
+          }}
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={data}>
+              <Line type="monotone" dataKey={dataKey} stroke={chartColor} />
+              <CartesianGrid stroke="#ccc" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+            </LineChart>
+          </ResponsiveContainer>
+        </Box>
+      </CardContent>
+    </Card>
+  );
+}
+
+SurfaceCard.propTypes = {
+  title: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  change: PropTypes.number.isRequired,
+  description: PropTypes.string.isRequired,
+  chartColor: PropTypes.string,
+  data: PropTypes.array.isRequired,
+  dataKey: PropTypes.string.isRequired,
+};
+
+// The main page content
 function DemoPageContent({ pathname }) {
   return (
     <Box
@@ -49,8 +205,51 @@ function DemoPageContent({ pathname }) {
         textAlign: 'center',
       }}
     >
-      <Typography>Dashboard content for {pathname}</Typography>
-      
+      <Typography variant="h4" gutterBottom>
+        Dashboard content for {pathname}
+      </Typography>
+
+      {/* Displaying the Cards */}
+      <Grid container spacing={2} justifyContent="center">
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard title="Users" value="14k" change={25} chartColor="green" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard title="Conversions" value="325" change={-25} chartColor="red" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard title="Event count" value="200k" change={5} chartColor="gray" />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <StatCard title="Event count" value="200k" change={5} chartColor="gray" />
+        </Grid>
+      </Grid>
+
+      {/* Additional Surface Cards Section */}
+      <Grid container spacing={2} justifyContent="center" sx={{ mt: 4 }}>
+        <Grid item xs={12} sm={6} md={6}>
+          <SurfaceCard
+            title="Sessions"
+            value="13,277"
+            change={35}
+            description="Sessions per day for the last 30 days"
+            chartColor="lightblue"
+            data={sessionData}
+            dataKey="sessions"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={6}>
+          <SurfaceCard
+            title="Page views and downloads"
+            value="1.3M"
+            change={-8}
+            description="Page views and downloads for the last 6 months"
+            chartColor="lightgray"
+            data={pageViewData}
+            dataKey="views"
+          />
+        </Grid>
+      </Grid>
     </Box>
   );
 }
@@ -59,9 +258,11 @@ DemoPageContent.propTypes = {
   pathname: PropTypes.string.isRequired,
 };
 
-export default function DashboardLayoutNavigationDividers(props) {
+// Main component function
+function DashboardLayoutBranding(props) {
   const { window } = props;
-  const [pathname, setPathname] = React.useState('/admindashboard');
+
+  const [pathname, setPathname] = React.useState('/dashboard');
 
   const router = React.useMemo(() => {
     return {
@@ -71,130 +272,28 @@ export default function DashboardLayoutNavigationDividers(props) {
     };
   }, [pathname]);
 
-  // Remove this const when copying and pasting into your project.
   const demoWindow = window !== undefined ? window() : undefined;
 
   return (
-    <Box sx={{ display: 'flex', bgcolor: 'black', minHeight: '100vh' }}>
-      <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-      >
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Permanent drawer
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-            bgcolor: 'black', // Black background for the drawer
-            color: 'white',  // White text color in the drawer
-          },
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-        <Toolbar />
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon sx={{ color: 'white' }}>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ color: 'white' }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider sx={{ bgcolor: 'white' }} />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon sx={{ color: 'white' }}>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ color: 'white' }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <Box
-        component="main"
-        sx={{ flexGrow: 1, bgcolor: 'black', color: 'white', p: 3 }}
-      >
-        <Toolbar />
-        <AppProvider
-          navigation={[
-            {
-              segment: 'Dashboard',
-              title: 'Dashboard',
-              icon: <DescriptionIcon sx={{ color: 'white' }} />,
-            },
-            { kind: 'divider' },
-            {
-              segment: 'Employees',
-              title: 'Employees',
-              icon: <DescriptionIcon sx={{ color: 'white' }} />,
-            },
-            { kind: 'divider' },
-            {
-              segment: 'Sales',
-              title: 'Sales',
-              icon: <DescriptionIcon sx={{ color: 'white' }} />,
-            },
-            { kind: 'divider' },
-            {
-              segment: 'Orders',
-              title: 'Orders',
-              icon: <DescriptionIcon sx={{ color: 'white' }} />,
-            },
-            { kind: 'divider' },
-            {
-              segment: 'Report',
-              title: 'Report',
-              icon: <DescriptionIcon sx={{ color: 'white' }} />,
-            },
-            { kind: 'divider' },
-            {
-              segment: 'Payment',
-              title: 'Payment',
-              icon: <DescriptionIcon sx={{ color: 'white' }} />,
-            },
-            { kind: 'divider' },
-            {
-              segment: 'Feedbacks',
-              title: 'Feedback',
-              icon: <DescriptionIcon sx={{ color: 'white' }} />,
-            },
-          ]}
-          router={router}
-          theme={demoTheme}
-          window={demoWindow}
-        >
-          <DashboardLayout>
-            <DemoPageContent pathname={pathname} />
-          </DashboardLayout>
-        </AppProvider>
-      </Box>
-    </Box>
+    <AppProvider
+      navigation={NAVIGATION}
+      branding={{
+        logo: <img src="src\assets\images\logo.jpg" alt="MUI logo" />,
+        title: 'ERP UNITY',
+      }}
+      router={router}
+      theme={demoTheme}
+      window={demoWindow}
+    >
+      <DashboardLayout>
+        <DemoPageContent pathname={pathname} />
+      </DashboardLayout>
+    </AppProvider>
   );
 }
 
-DashboardLayoutNavigationDividers.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * Remove this when copying and pasting into your project.
-   */
+DashboardLayoutBranding.propTypes = {
   window: PropTypes.func,
 };
+
+export default DashboardLayoutBranding;
