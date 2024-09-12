@@ -1,18 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { StyledEngineProvider } from '@mui/material/styles';
-import Header from '../components/DashboardHeader/Header';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
+import Admin from '../components/Dashboardpage/Admin';
+import 'bootstrap/dist/css/bootstrap.min.css';  // Import Bootstrap
+
+
 
 const AdminDash = () => {
-  return (
-    <React.StrictMode>
-      <StyledEngineProvider injectFirst>
-        <Header />
-      </StyledEngineProvider>
-    </React.StrictMode>
-  );
-};
-
-ReactDOM.createRoot(document.querySelector("#root")).render(<AdminDash />);
-
+  return(
+  <React.StrictMode>
+    <Admin />
+  </React.StrictMode>
+);
+}
 export default AdminDash;

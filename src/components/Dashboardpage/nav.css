@@ -1,0 +1,26 @@
+/* Navbar Styling */
+.navbar-custom {
+    background-color: #0e1265; /* Black background */
+    height: 60px; /* Set the height of the navbar */
+  }
+  
+  .navbar-custom .navbar-brand {
+    height: 100%; /* Ensure the brand takes full height */
+    display: flex;
+    align-items: center; /* Center the brand vertically */
+  }
+  
+  .navbar-custom .nav-link {
+    color: #fff; /* White text color */
+    display: flex;
+    align-items: center; /* Center icons vertically */
+  }
+  
+  .navbar-custom .nav-link:hover {
+    color: #0c0808; /* Lighter color on hover */
+  }
+  
+  .nav-icon {
+    font-size: 20px; /* Size of the icons */
+  }
+  

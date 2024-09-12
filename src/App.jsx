@@ -5,7 +5,9 @@ import About from './pages/About';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Signup from './pages/Signup'; 
+
+
 import AdminDash from './Dashboard/AdminDash';
 import EmployeeDash from './Dashboard/EmployeeDash';
 
@@ -15,18 +17,16 @@ function App() {
     return (
         <div className="App">
             <Router>
-              
-                
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/about" element={<About />} />
-                    <Route path="/Services" element={<Services />} />
+                    <Route path="/services" element={<Services />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/adminDashboard" element={<AdminDash />} />
                     <Route path="/employeeDashboard" element={<EmployeeDash />} />
-                   
+
                 </Routes>  
             </Router>
         </div>
