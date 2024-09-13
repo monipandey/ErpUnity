@@ -1,0 +1,19 @@
+.container {
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .card-8 {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  .card-5 {
+    padding: 15px;
+    background-color: #e9ecef;
+  }
+  
+  .table-active {
+    background-color: #343a40;
+    color: white;
+  }
+  

@@ -1,8 +1,8 @@
 import React from 'react';
-import { Nav } from 'react-bootstrap';
-import { FaHome, FaUser, FaShoppingCart, FaDollarSign, FaComment, FaCog } from 'react-icons/fa';
-import { Link } from 'react-router-dom'; // Import Link for routing
-import './Sidebar.css'; // Ensure this path is correct and CSS file exists
+import { Nav, Dropdown } from 'react-bootstrap';
+import { FaHome, FaUser, FaShoppingCart, FaDollarSign, FaComment, FaCog, FaBoxes } from 'react-icons/fa';
+import { Link } from 'react-router-dom'; 
+import './Sidebar.css'; 
 
 const Sidebar = () => {
   return (
@@ -24,9 +24,21 @@ const Sidebar = () => {
         <Nav.Link as={Link} to="/feedback">
           <FaComment className="sidebar-icon" /> Feedback
         </Nav.Link>
-        <Nav.Link as={Link} to="/settings">
-          <FaCog className="sidebar-icon" /> Settings
-        </Nav.Link>
+        
+        <Dropdown>
+          <Nav.Link>
+          <Dropdown.Toggle >
+            <FaBoxes className="sidebar-icon" /> Products
+          </Dropdown.Toggle>
+          </Nav.Link>
+          <Dropdown.Menu>
+            <Dropdown.Item as={Link} to="/products/add">Add Product</Dropdown.Item>
+            <Dropdown.Item as={Link} to="/products/list">Product List</Dropdown.Item>
+          
+          </Dropdown.Menu>
+        </Dropdown>
+
+        
       </Nav>
     </div>
   );

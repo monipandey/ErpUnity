@@ -28,3 +28,26 @@
 .sidebar .sidebar-icon {
   margin-right: 5px; /* Space between icon and text */
 }
+.sidebar {
+  width: 230px;
+  height: 100vh;
+  background-color: #0a2139; /* Dark background color */
+  padding: 20px;
+  border-right: 1px solid #dee2e6;
+}
+
+.sidebar .nav-link {
+  color: #ffffff; /* White color for text */
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.sidebar .sidebar-icon {
+  margin-right: 10px;
+}
+
+.sidebar .dropdown-menu {
+  width: 100%;
+  background-color: #0a2139;
+}
